@@ -17,7 +17,6 @@ export default function Shelter3DViewer({ config, materialInfo, heatLoss }) {
   const H = height * scale;
   const D = width * scale;
 
-  // Calculated coordinates to prevent double-minus or literal text in SVG points
   const halfW = W / 2;
   const halfH = H / 2;
   const halfD = D / 2;
@@ -35,31 +34,43 @@ export default function Shelter3DViewer({ config, materialInfo, heatLoss }) {
   const wallBaseX = halfW + 30;
 
   return (
-    <div className="glass-panel p-5 space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Box className="w-5 h-5 text-sky-400" />
+    <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Box style={{ width: '18px', height: '18px', color: '#38bdf8' }} />
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-200">
+            <h3 style={{ fontSize: '0.8rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#cbd5e1' }}>
               Interactive 3D Shelter Visualizer
             </h3>
-            <p className="text-xs text-gray-400">Geometry, Solar Radiation & Thermal Flux Vectors</p>
+            <p style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Geometry, Solar Rays & Thermal Flux Vectors</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 text-xs">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.75rem' }}>
           {isPcm && (
-            <span className="badge badge-amber flex items-center gap-1">
-              <Flame className="w-3 h-3" /> Bio-PCM Layer Active
+            <span className="badge badge-amber" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Flame style={{ width: '12px', height: '12px' }} /> Bio-PCM Active
             </span>
           )}
-          <span className="badge badge-cyan font-mono">{length}m × {width}m × {height}m</span>
+          <span className="badge badge-cyan" style={{ fontFamily: 'monospace' }}>{length}m × {width}m × {height}m</span>
         </div>
       </div>
 
       {/* 3D Isometric Viewport Container */}
       <div
-        className="relative w-full h-72 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing"
+        style={{
+          position: 'relative',
+          width: '100%',
+          height: '240px',
+          borderRadius: '10px',
+          backgroundColor: '#050912',
+          border: '1px solid #1e293b',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
+          cursor: 'grab'
+        }}
         onMouseMove={(e) => {
           if (e.buttons === 1) {
             setRotationY((prev) => prev + e.movementX * 0.5);
@@ -67,35 +78,25 @@ export default function Shelter3DViewer({ config, materialInfo, heatLoss }) {
           }
         }}
       >
-        {/* Background Grid Pattern */}
-        <div
-          className="absolute inset-0 opacity-20 pointer-events-none"
-          style={{
-            backgroundImage: `radial-gradient(#38bdf8 1px, transparent 1px)`,
-            backgroundSize: '24px 24px'
-          }}
-        />
-
         {/* Floating Controls Overlay */}
-        <div className="absolute top-3 left-3 text-[11px] font-mono text-gray-400 bg-slate-900/80 px-2.5 py-1 rounded border border-slate-800 pointer-events-none flex items-center gap-2">
-          <Eye className="w-3.5 h-3.5 text-sky-400" /> Drag to Rotate 3D Model
+        <div style={{ position: 'absolute', top: '10px', left: '10px', fontSize: '0.65rem', fontFamily: 'monospace', color: '#94a3b8', backgroundColor: 'rgba(15, 23, 42, 0.85)', padding: '4px 8px', borderRadius: '4px', border: '1px solid #1e293b', display: 'flex', alignItems: 'center', gap: '4px', pointerEvents: 'none' }}>
+          <Eye style={{ width: '12px', height: '12px', color: '#38bdf8' }} /> Drag to Rotate 3D Model
         </div>
 
         {/* Solar Radiation Angle Highlight */}
-        <div className="absolute top-3 right-3 flex items-center gap-1.5 text-xs text-amber-400 bg-amber-950/40 border border-amber-800/50 px-2.5 py-1 rounded-lg">
-          <Sun className="w-4 h-4 text-amber-400" />
-          <span className="font-mono font-semibold">South Sun (780 W/m²)</span>
+        <div style={{ position: 'absolute', top: '10px', right: '10px', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.75rem', color: '#f59e0b', backgroundColor: 'rgba(245, 158, 11, 0.15)', border: '1px solid rgba(245, 158, 11, 0.3)', padding: '4px 8px', borderRadius: '6px' }}>
+          <Sun style={{ width: '14px', height: '14px', color: '#f59e0b' }} />
+          <span style={{ fontFamily: 'monospace', fontWeight: '600' }}>South Sun (780 W/m²)</span>
         </div>
 
         {/* SVG Isometric 3D Rendering */}
         <svg
           width="420"
-          height="240"
-          viewBox="-200 -120 400 240"
-          className="transition-transform duration-75"
+          height="220"
+          viewBox="-200 -110 400 220"
           style={{
             transform: `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`,
-            transformStyle: 'preserve-3d'
+            transition: 'transform 0.05s ease-out'
           }}
         >
           <defs>
@@ -198,25 +199,21 @@ export default function Shelter3DViewer({ config, materialInfo, heatLoss }) {
       </div>
 
       {/* Legend & Specs Footer */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-[11px] font-mono pt-1">
-        <div className="flex items-center gap-1.5 text-sky-300 bg-slate-900/60 p-2 rounded-lg border border-slate-800">
-          <span className="w-2.5 h-2.5 rounded-full bg-sky-400" />
-          <span>Wall Area: {((2 * (length * height) + 2 * (width * height)) - windowArea).toFixed(1)} m²</span>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.5rem', fontSize: '0.7rem', fontFamily: 'monospace' }}>
+        <div style={{ padding: '0.35rem 0.5rem', borderRadius: '6px', backgroundColor: '#0f172a', border: '1px solid #1e293b', color: '#7dd3fc' }}>
+          Wall: {((2 * (length * height) + 2 * (width * height)) - windowArea).toFixed(1)} m²
         </div>
 
-        <div className="flex items-center gap-1.5 text-amber-300 bg-slate-900/60 p-2 rounded-lg border border-slate-800">
-          <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
-          <span>Glazing: {windowArea} m² (South)</span>
+        <div style={{ padding: '0.35rem 0.5rem', borderRadius: '6px', backgroundColor: '#0f172a', border: '1px solid #1e293b', color: '#fcd34d' }}>
+          Glazing: {windowArea} m²
         </div>
 
-        <div className="flex items-center gap-1.5 text-rose-300 bg-slate-900/60 p-2 rounded-lg border border-slate-800">
-          <span className="w-2.5 h-2.5 rounded-full bg-rose-400" />
-          <span>Roof Area: {(length * width).toFixed(1)} m²</span>
+        <div style={{ padding: '0.35rem 0.5rem', borderRadius: '6px', backgroundColor: '#0f172a', border: '1px solid #1e293b', color: '#fda4af' }}>
+          Roof: {(length * width).toFixed(1)} m²
         </div>
 
-        <div className="flex items-center gap-1.5 text-emerald-300 bg-slate-900/60 p-2 rounded-lg border border-slate-800">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
-          <span>Vol: {(length * width * height).toFixed(1)} m³</span>
+        <div style={{ padding: '0.35rem 0.5rem', borderRadius: '6px', backgroundColor: '#0f172a', border: '1px solid #1e293b', color: '#6ee7b7' }}>
+          Vol: {(length * width * height).toFixed(1)} m³
         </div>
       </div>
     </div>

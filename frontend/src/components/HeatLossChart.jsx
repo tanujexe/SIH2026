@@ -1,6 +1,6 @@
 import React from 'react';
-import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
-import { PieChart as PieIcon, Activity } from 'lucide-react';
+import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from 'recharts';
+import { PieChart as PieIcon } from 'lucide-react';
 
 const COLORS = ['#38bdf8', '#3b82f6', '#10b981', '#f59e0b', '#a855f7'];
 
@@ -16,30 +16,30 @@ export default function HeatLossChart({ heatLoss }) {
   ];
 
   return (
-    <div className="glass-panel p-5 space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <PieIcon className="w-5 h-5 text-sky-400" />
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-200">
+    <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '0.5rem', borderBottom: '1px solid #1e293b' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <PieIcon style={{ width: '18px', height: '18px', color: '#38bdf8' }} />
+          <h3 style={{ fontSize: '0.8rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#cbd5e1' }}>
             Heat Loss Component Breakdown
           </h3>
         </div>
-        <span className="text-xs font-mono text-sky-300 bg-slate-900 border border-slate-700 px-2.5 py-1 rounded-md">
-          Total: <strong className="text-amber-300">{heatLoss.total_kwh} kWh/day</strong>
+        <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#f59e0b', backgroundColor: '#0f172a', border: '1px solid #1e293b', padding: '2px 8px', borderRadius: '6px', fontWeight: '700' }}>
+          Total: {heatLoss.total_kwh} kWh/day
         </span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem', alignItems: 'center' }}>
         {/* Pie Chart Visualizer */}
-        <div className="h-56 w-full">
+        <div style={{ height: '220px', width: '100%' }}>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
                 data={data}
                 cx="50%"
                 cy="50%"
-                innerRadius={55}
-                outerRadius={85}
+                innerRadius={50}
+                outerRadius={80}
                 paddingAngle={4}
                 dataKey="value"
               >
@@ -62,22 +62,21 @@ export default function HeatLossChart({ heatLoss }) {
         </div>
 
         {/* Component Loss Breakdown List */}
-        <div className="space-y-2 text-xs">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.75rem' }}>
           {data.map((item, idx) => (
             <div
               key={item.name}
-              className="flex items-center justify-between p-2 rounded-lg bg-slate-900/60 border border-slate-800/80 hover:border-slate-700"
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.5rem 0.75rem', borderRadius: '8px', backgroundColor: '#0f172a', border: '1px solid #1e293b' }}
             >
-              <div className="flex items-center gap-2">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <span
-                  className="w-2.5 h-2.5 rounded-full"
-                  style={{ backgroundColor: COLORS[idx % COLORS.length] }}
+                  style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: COLORS[idx % COLORS.length] }}
                 />
-                <span className="font-medium text-gray-300">{item.name} Heat Loss</span>
+                <span style={{ fontWeight: '500', color: '#cbd5e1' }}>{item.name} Heat Loss</span>
               </div>
-              <div className="flex items-center gap-3 font-mono">
-                <span className="text-gray-400">{item.value} kWh</span>
-                <span className="font-bold text-gray-100 w-12 text-right">{item.percent}%</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontFamily: 'monospace' }}>
+                <span style={{ color: '#94a3b8' }}>{item.value} kWh</span>
+                <span style={{ fontWeight: '700', color: '#38bdf8', minWidth: '42px', textAlign: 'right' }}>{item.percent}%</span>
               </div>
             </div>
           ))}

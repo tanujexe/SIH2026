@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   ShieldAlert,
-  Flame,
-  Zap,
   Activity,
-  Layers,
-  Sparkles,
-  Award,
-  ChevronRight,
   RotateCcw
 } from 'lucide-react';
 
@@ -26,8 +20,7 @@ import {
   fetchSimulation,
   fetchComparison,
   fetchAnsysValidation,
-  runLocalThermalSimulation,
-  MATERIAL_PRESETS
+  runLocalThermalSimulation
 } from './services/simulationApi';
 
 export default function App() {
@@ -68,7 +61,6 @@ export default function App() {
       setLastUpdated(new Date().toLocaleTimeString());
     } catch (err) {
       console.error('Simulation error:', err);
-      // Fallback local execution
       const simResult = runLocalThermalSimulation(customConfig);
       setSimulationData(simResult);
     } finally {
@@ -99,129 +91,127 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0b0f19] text-gray-100 flex flex-col font-sans">
-      {/* Header Bar */}
-      <header className="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center shadow-lg shadow-sky-500/20">
-              <ShieldAlert className="w-6 h-6 text-white" />
+    <div style={{ minHeight: '100vh', backgroundColor: '#090d16', color: '#f8fafc', display: 'flex', flexDirection: 'column' }}>
+      {/* Executive Top Header Bar */}
+      <header className="app-header">
+        <div className="header-container">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'linear-gradient(135deg, #0ea5e9, #2563eb)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 15px rgba(14, 165, 233, 0.3)' }}>
+              <ShieldAlert style={{ width: '22px', height: '22px', color: '#ffffff' }} />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-base font-extrabold tracking-wide uppercase bg-gradient-to-r from-white via-sky-100 to-sky-400 bg-clip-text text-transparent">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <h1 style={{ fontSize: '1rem', fontWeight: '800', tracking: '0.05em', textTransform: 'uppercase', color: '#f8fafc' }}>
                   Thermal Shelter Simulation Platform
                 </h1>
-                <span className="badge badge-cyan text-[10px]">v1.0 MVP</span>
+                <span className="badge badge-cyan">v1.0 MVP</span>
               </div>
-              <p className="text-xs text-gray-400">Extreme-Cold Military Shelter Optimization • Leh, Ladakh (3,500m)</p>
+              <p style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Extreme-Cold Military Shelter Optimization • Leh, Ladakh (3,500m)</p>
             </div>
           </div>
 
-          {/* Quick Header Indicators */}
-          <div className="flex items-center gap-3">
+          {/* Header Action Buttons */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <button
               type="button"
               onClick={handleResetDefaults}
-              className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs text-gray-300 flex items-center gap-1.5 transition-all"
+              style={{ padding: '6px 12px', borderRadius: '8px', backgroundColor: '#0f172a', border: '1px solid #1e293b', color: '#cbd5e1', fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}
             >
-              <RotateCcw className="w-3.5 h-3.5" /> Reset Defaults
+              <RotateCcw style={{ width: '14px', height: '14px' }} /> Reset Defaults
             </button>
-            <div className="hidden sm:flex items-center gap-2 bg-sky-950/40 border border-sky-800/40 px-3 py-1.5 rounded-lg text-xs font-mono text-sky-300">
-              <Activity className="w-4 h-4 text-sky-400 animate-pulse" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.3)', padding: '6px 12px', borderRadius: '8px', fontSize: '0.75rem', fontFamily: 'monospace', color: '#38bdf8' }}>
+              <Activity style={{ width: '14px', height: '14px', color: '#38bdf8' }} />
               <span>Engine Status: ONLINE</span>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Main Workspace Layout */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex-1 w-full space-y-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Left Controls Drawer (4 Columns) */}
-          <div className="lg:col-span-4 space-y-5">
-            <LocationSelector
-              location={config.location}
-              onChange={(loc) => setConfig({ ...config, location: loc })}
-            />
+      {/* Main Workspace 2-Column Grid Layout */}
+      <main className="dashboard-layout">
+        {/* Left Sidebar Config Panel (380px) */}
+        <div className="sidebar-panel">
+          <LocationSelector
+            location={config.location}
+            onChange={(loc) => setConfig({ ...config, location: loc })}
+          />
 
-            <GeometryControls
-              config={config}
-              onChange={(newCfg) => setConfig(newCfg)}
-            />
+          <GeometryControls
+            config={config}
+            onChange={(newCfg) => setConfig(newCfg)}
+          />
 
-            <MaterialSelector
-              selectedMaterial={config.material}
-              onChange={handleMaterialChange}
-            />
+          <MaterialSelector
+            selectedMaterial={config.material}
+            onChange={handleMaterialChange}
+          />
 
-            <SimulationButton
-              onRun={() => handleRunSimulation(config)}
-              isLoading={isLoading}
-              lastUpdated={lastUpdated}
-            />
-          </div>
+          <SimulationButton
+            onRun={() => handleRunSimulation(config)}
+            isLoading={isLoading}
+            lastUpdated={lastUpdated}
+          />
+        </div>
 
-          {/* Right Results Dashboard (8 Columns) */}
-          <div className="lg:col-span-8 space-y-6">
-            {/* Impact Metrics KPI Cards */}
+        {/* Right Main Analytics Dashboard */}
+        <div className="main-panel">
+          {/* Impact Metrics KPI Cards */}
+          {simulationData && (
+            <MetricsCard
+              energy={simulationData.energy}
+              impact={simulationData.impact}
+            />
+          )}
+
+          {/* 24-Hour Diurnal Temperature Curve Chart */}
+          {simulationData && (
+            <TemperatureChart
+              timesteps={simulationData.timesteps}
+              targetTemp={config.target_temperature}
+              minUnheated={simulationData.impact.min_indoor_temp_unheated}
+              maxUnheated={simulationData.impact.max_indoor_temp_unheated}
+            />
+          )}
+
+          {/* Heat Loss Breakdown & 3D Interactive Visualizer Side-by-Side */}
+          <div className="visualizer-grid">
             {simulationData && (
-              <MetricsCard
-                energy={simulationData.energy}
-                impact={simulationData.impact}
-              />
+              <HeatLossChart heatLoss={simulationData.heat_loss} />
             )}
 
-            {/* 24-Hour Temperature Curve Chart */}
             {simulationData && (
-              <TemperatureChart
-                timesteps={simulationData.timesteps}
-                targetTemp={config.target_temperature}
-                minUnheated={simulationData.impact.min_indoor_temp_unheated}
-                maxUnheated={simulationData.impact.max_indoor_temp_unheated}
-              />
-            )}
-
-            {/* Heat Loss Breakdown & Interactive 3D Shelter Visualizer Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {simulationData && (
-                <HeatLossChart heatLoss={simulationData.heat_loss} />
-              )}
-
-              {simulationData && (
-                <Shelter3DViewer
-                  config={config}
-                  materialInfo={simulationData.material_info}
-                  heatLoss={simulationData.heat_loss}
-                />
-              )}
-            </div>
-
-            {/* Design Comparison Module */}
-            {comparisonData && (
-              <DesignComparison
-                comparisonData={comparisonData}
-                selectedMaterial={config.material}
-                onSelectMaterial={handleMaterialChange}
-              />
-            )}
-
-            {/* PyAnsys / ANSYS FEA Validation Layer */}
-            {ansysData && (
-              <AnsysValidation
-                ansysData={ansysData}
+              <Shelter3DViewer
                 config={config}
+                materialInfo={simulationData.material_info}
+                heatLoss={simulationData.heat_loss}
               />
             )}
           </div>
+
+          {/* Comparative Design Analysis Module */}
+          {comparisonData && (
+            <DesignComparison
+              comparisonData={comparisonData}
+              selectedMaterial={config.material}
+              onSelectMaterial={handleMaterialChange}
+            />
+          )}
+
+          {/* PyAnsys / ANSYS FEA Validation Layer */}
+          {ansysData && (
+            <AnsysValidation
+              ansysData={ansysData}
+              config={config}
+            />
+          )}
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800/60 py-4 text-center text-xs text-gray-500">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <footer style={{ borderTop: '1px solid #1e293b', padding: '1rem 1.5rem', backgroundColor: '#0b1120', fontSize: '0.75rem', color: '#64748b', textAlign: 'center', marginTop: 'auto' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem' }}>
           <span>DRDO Extreme-Cold Military Thermal Shelter Simulation & Optimization Platform</span>
-          <span className="font-mono text-gray-400">FastAPI Transient Engine • PyANSYS FEA Integration</span>
+          <span style={{ fontFamily: 'monospace', color: '#94a3b8' }}>FastAPI Transient Engine • PyANSYS FEA Integration</span>
         </div>
       </footer>
     </div>

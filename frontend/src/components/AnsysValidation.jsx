@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Cpu, CheckCircle2, Code2, Copy, Download, Layers, ShieldCheck, Activity } from 'lucide-react';
+import { Cpu, CheckCircle2, Code2, Copy, Download, ShieldCheck } from 'lucide-react';
 
 export default function AnsysValidation({ ansysData, config }) {
   const [copied, setCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState('summary'); // 'summary' | 'script' | 'mesh'
+  const [activeTab, setActiveTab] = useState('summary');
 
   if (!ansysData) return null;
 
@@ -28,49 +28,67 @@ export default function AnsysValidation({ ansysData, config }) {
   };
 
   return (
-    <div className="glass-panel p-5 space-y-4 border-l-4 border-l-cyan-400">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <Cpu className="w-5 h-5 text-cyan-400" />
+    <div className="glass-panel" style={{ borderLeft: '4px solid #38bdf8', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem', paddingBottom: '0.75rem', borderBottom: '1px solid #1e293b' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Cpu style={{ width: '20px', height: '20px', color: '#38bdf8' }} />
           <div>
-            <div className="flex items-center gap-2">
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-200">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <h3 style={{ fontSize: '0.85rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#cbd5e1' }}>
                 PyANSYS / ANSYS High-Fidelity Validation Layer
               </h3>
-              <span className="badge badge-emerald">
-                <CheckCircle2 className="w-3 h-3" /> VERIFIED
+              <span className="badge badge-emerald" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <CheckCircle2 style={{ width: '12px', height: '12px' }} /> VERIFIED
               </span>
             </div>
-            <p className="text-xs text-gray-400">FEA Mesh Boundary Conduction & Thermal Flux Verification</p>
+            <p style={{ fontSize: '0.75rem', color: '#94a3b8' }}>FEA Mesh Boundary Conduction & Thermal Flux Verification</p>
           </div>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex items-center gap-1 bg-slate-900/90 p-1 rounded-lg border border-slate-800 text-xs">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', backgroundColor: '#0f172a', padding: '4px', borderRadius: '8px', border: '1px solid #1e293b', fontSize: '0.75rem' }}>
           <button
             type="button"
             onClick={() => setActiveTab('summary')}
-            className={`px-3 py-1.5 rounded-md font-medium transition-all ${
-              activeTab === 'summary' ? 'bg-sky-500 text-white' : 'text-gray-400 hover:text-gray-200'
-            }`}
+            style={{
+              padding: '6px 12px',
+              borderRadius: '6px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              border: 'none',
+              backgroundColor: activeTab === 'summary' ? '#0284c7' : 'transparent',
+              color: activeTab === 'summary' ? '#ffffff' : '#94a3b8'
+            }}
           >
             Validation Summary
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('script')}
-            className={`px-3 py-1.5 rounded-md font-medium transition-all ${
-              activeTab === 'script' ? 'bg-sky-500 text-white' : 'text-gray-400 hover:text-gray-200'
-            }`}
+            style={{
+              padding: '6px 12px',
+              borderRadius: '6px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              border: 'none',
+              backgroundColor: activeTab === 'script' ? '#0284c7' : 'transparent',
+              color: activeTab === 'script' ? '#ffffff' : '#94a3b8'
+            }}
           >
             PyMAPDL Script
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('mesh')}
-            className={`px-3 py-1.5 rounded-md font-medium transition-all ${
-              activeTab === 'mesh' ? 'bg-sky-500 text-white' : 'text-gray-400 hover:text-gray-200'
-            }`}
+            style={{
+              padding: '6px 12px',
+              borderRadius: '6px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              border: 'none',
+              backgroundColor: activeTab === 'mesh' ? '#0284c7' : 'transparent',
+              color: activeTab === 'mesh' ? '#ffffff' : '#94a3b8'
+            }}
           >
             3D FEA Mesh Nodes
           </button>
@@ -79,29 +97,29 @@ export default function AnsysValidation({ ansysData, config }) {
 
       {/* Tab 1: Validation Summary */}
       {activeTab === 'summary' && (
-        <div className="space-y-4">
-          <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between text-xs font-mono">
-            <div className="flex items-center gap-2 text-emerald-300">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div style={{ padding: '0.75rem 1rem', borderRadius: '10px', backgroundColor: '#0f172a', border: '1px solid #1e293b', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.75rem', fontFamily: 'monospace' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#6ee7b7' }}>
+              <ShieldCheck style={{ width: '16px', height: '16px', color: '#10b981' }} />
               <span>{ansysData.verdict}</span>
             </div>
-            <span className="text-gray-400">Error Margin: <strong className="text-sky-300">{ansysData.validation_delta_percent}%</strong></span>
+            <span style={{ color: '#94a3b8' }}>Error Margin: <strong style={{ color: '#38bdf8' }}>{ansysData.validation_delta_percent}%</strong></span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-            <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800">
-              <span className="text-gray-400 block">Rapid Physics Solver Heat Loss</span>
-              <span className="text-base font-bold font-mono text-sky-300">{ansysData.rapid_heat_loss_kwh} kWh/day</span>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem', fontSize: '0.75rem' }}>
+            <div style={{ padding: '0.75rem', borderRadius: '8px', backgroundColor: '#0f172a', border: '1px solid #1e293b' }}>
+              <span style={{ color: '#94a3b8', display: 'block', marginBottom: '4px' }}>Rapid Physics Solver Heat Loss</span>
+              <span style={{ fontSize: '1rem', fontWeight: '700', fontFamily: 'monospace', color: '#38bdf8' }}>{ansysData.rapid_heat_loss_kwh} kWh/day</span>
             </div>
 
-            <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800">
-              <span className="text-gray-400 block">ANSYS 3D SOLID70 FEA Heat Loss</span>
-              <span className="text-base font-bold font-mono text-cyan-300">{ansysData.ansys_heat_loss_kwh} kWh/day</span>
+            <div style={{ padding: '0.75rem', borderRadius: '8px', backgroundColor: '#0f172a', border: '1px solid #1e293b' }}>
+              <span style={{ color: '#94a3b8', display: 'block', marginBottom: '4px' }}>ANSYS 3D SOLID70 FEA Heat Loss</span>
+              <span style={{ fontSize: '1rem', fontWeight: '700', fontFamily: 'monospace', color: '#38bdf8' }}>{ansysData.ansys_heat_loss_kwh} kWh/day</span>
             </div>
 
-            <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800">
-              <span className="text-gray-400 block">FEA Discretized Mesh</span>
-              <span className="text-base font-bold font-mono text-purple-300">
+            <div style={{ padding: '0.75rem', borderRadius: '8px', backgroundColor: '#0f172a', border: '1px solid #1e293b' }}>
+              <span style={{ color: '#94a3b8', display: 'block', marginBottom: '4px' }}>FEA Discretized Mesh</span>
+              <span style={{ fontSize: '1rem', fontWeight: '700', fontFamily: 'monospace', color: '#c084fc' }}>
                 {ansysData.mesh_nodes_count || 480} Nodes ({ansysData.mesh_elements_count || 378} Elements)
               </span>
             </div>
@@ -111,32 +129,32 @@ export default function AnsysValidation({ ansysData, config }) {
 
       {/* Tab 2: Generated PyMAPDL Python Script */}
       {activeTab === 'script' && (
-        <div className="space-y-2">
-          <div className="flex items-center justify-between text-xs text-gray-400">
-            <span className="flex items-center gap-1 font-mono">
-              <Code2 className="w-4 h-4 text-sky-400" /> PyMAPDL Script Generator
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.75rem', color: '#94a3b8' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'monospace', color: '#cbd5e1' }}>
+              <Code2 style={{ width: '16px', height: '16px', color: '#38bdf8' }} /> PyMAPDL Script Generator
             </span>
-            <div className="flex items-center gap-2">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <button
                 type="button"
                 onClick={handleCopyScript}
-                className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-sky-300 flex items-center gap-1 text-[11px]"
+                style={{ padding: '4px 10px', borderRadius: '6px', backgroundColor: '#1e293b', color: '#38bdf8', border: '1px solid #334155', fontSize: '0.7rem', display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
               >
-                <Copy className="w-3 h-3" />
+                <Copy style={{ width: '12px', height: '12px' }} />
                 {copied ? 'Copied!' : 'Copy Script'}
               </button>
               <button
                 type="button"
                 onClick={handleDownloadScript}
-                className="px-2.5 py-1 rounded bg-sky-600 hover:bg-sky-500 text-white flex items-center gap-1 text-[11px]"
+                style={{ padding: '4px 10px', borderRadius: '6px', backgroundColor: '#0284c7', color: '#ffffff', border: 'none', fontSize: '0.7rem', display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
               >
-                <Download className="w-3 h-3" />
+                <Download style={{ width: '12px', height: '12px' }} />
                 Download .py
               </button>
             </div>
           </div>
 
-          <pre className="p-4 rounded-xl bg-slate-950 border border-slate-800 font-mono text-[11px] text-sky-200 overflow-x-auto max-h-64 scrollbar-thin">
+          <pre style={{ padding: '1rem', borderRadius: '10px', backgroundColor: '#050912', border: '1px solid #1e293b', fontFamily: 'monospace', fontSize: '0.7rem', color: '#7dd3fc', overflowX: 'auto', maxHeight: '240px' }}>
             {ansysData.pyansys_script}
           </pre>
         </div>
@@ -144,33 +162,33 @@ export default function AnsysValidation({ ansysData, config }) {
 
       {/* Tab 3: 3D FEA Mesh Nodes Data */}
       {activeTab === 'mesh' && (
-        <div className="space-y-2">
-          <div className="text-xs text-gray-400 font-mono flex items-center justify-between">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontFamily: 'monospace', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <span>3D SOLID70 Finite Element Nodal Temperature Contours</span>
             <span>Sample 120 Nodes Exported</span>
           </div>
 
-          <div className="overflow-x-auto max-h-60 rounded-xl border border-slate-800">
-            <table className="w-full text-left text-[11px] font-mono border-collapse bg-slate-950">
-              <thead className="sticky top-0 bg-slate-900 border-b border-slate-800 text-gray-400">
+          <div style={{ overflowX: 'auto', maxHeight: '220px', borderRadius: '8px', border: '1px solid #1e293b' }}>
+            <table className="comparison-table">
+              <thead>
                 <tr>
-                  <th className="py-2 px-3">Node ID</th>
-                  <th className="py-2 px-3">X (m)</th>
-                  <th className="py-2 px-3">Y (m)</th>
-                  <th className="py-2 px-3">Z (m)</th>
-                  <th className="py-2 px-3">Node Temp (°C)</th>
-                  <th className="py-2 px-3">Thermal Flux (W/m²)</th>
+                  <th>Node ID</th>
+                  <th>X (m)</th>
+                  <th>Y (m)</th>
+                  <th>Z (m)</th>
+                  <th>Node Temp (°C)</th>
+                  <th>Thermal Flux (W/m²)</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/50 text-gray-300">
+              <tbody>
                 {(ansysData.fea_nodes || []).slice(0, 15).map((node) => (
-                  <tr key={node.id} className="hover:bg-slate-900/60">
-                    <td className="py-1.5 px-3 text-sky-400">#{node.id}</td>
-                    <td className="py-1.5 px-3">{node.x}</td>
-                    <td className="py-1.5 px-3">{node.y}</td>
-                    <td className="py-1.5 px-3">{node.z}</td>
-                    <td className="py-1.5 px-3 text-amber-300 font-bold">{node.temp} °C</td>
-                    <td className="py-1.5 px-3 text-purple-300">{node.flux} W/m²</td>
+                  <tr key={node.id}>
+                    <td style={{ color: '#38bdf8', fontWeight: '700' }}>#{node.id}</td>
+                    <td>{node.x}</td>
+                    <td>{node.y}</td>
+                    <td>{node.z}</td>
+                    <td style={{ color: '#f59e0b', fontWeight: '700' }}>{node.temp} °C</td>
+                    <td style={{ color: '#c084fc' }}>{node.flux} W/m²</td>
                   </tr>
                 ))}
               </tbody>

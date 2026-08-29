@@ -3,7 +3,6 @@
  * Communicates with FastAPI backend, with built-in client-side fallback engine for offline reliability.
  */
 
-// Material thermophysical definitions (mirrors backend physics engine)
 export const MATERIAL_PRESETS = {
   baseline_steel: {
     id: "baseline_steel",
@@ -43,9 +42,6 @@ export const MATERIAL_PRESETS = {
   }
 };
 
-/**
- * Local JS physics engine solver (runs in < 10ms for instant client response)
- */
 export function runLocalThermalSimulation(params) {
   const {
     length = 6.0,

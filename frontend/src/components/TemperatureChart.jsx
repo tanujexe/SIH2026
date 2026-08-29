@@ -10,7 +10,7 @@ import {
   Legend,
   ReferenceLine
 } from 'recharts';
-import { Thermometer, Sun, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { Thermometer, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 
 export default function TemperatureChart({ timesteps, targetTemp, minUnheated, maxUnheated }) {
   if (!timesteps || timesteps.length === 0) return null;
@@ -19,36 +19,36 @@ export default function TemperatureChart({ timesteps, targetTemp, minUnheated, m
   const chartData = timesteps.filter((_, idx) => idx % 3 === 0);
 
   return (
-    <div className="glass-panel p-5 space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <Thermometer className="w-5 h-5 text-sky-400" />
+    <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Thermometer style={{ width: '20px', height: '20px', color: '#38bdf8' }} />
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-200">
+            <h3 style={{ fontSize: '0.85rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#cbd5e1' }}>
               24-Hour Diurnal Temperature Profile
             </h3>
-            <p className="text-xs text-gray-400">Leh, Ladakh Winter Weather vs Shelter Response</p>
+            <p style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Leh, Ladakh Winter Weather vs Shelter Thermal Response</p>
           </div>
         </div>
 
         {/* Quick Min / Max Unheated Badges */}
-        <div className="flex items-center gap-2 text-xs font-mono">
-          <div className="bg-slate-900 border border-slate-700/80 px-2.5 py-1 rounded-md flex items-center gap-1">
-            <ArrowDownRight className="w-3.5 h-3.5 text-cyan-400" />
-            <span className="text-gray-400">Min Unheated:</span>
-            <span className="text-cyan-300 font-bold">{minUnheated} °C</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.75rem', fontFamily: 'monospace' }}>
+          <div style={{ backgroundColor: '#0f172a', border: '1px solid #1e293b', padding: '4px 8px', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <ArrowDownRight style={{ width: '14px', height: '14px', color: '#38bdf8' }} />
+            <span style={{ color: '#94a3b8' }}>Min Unheated:</span>
+            <span style={{ color: '#38bdf8', fontWeight: '700' }}>{minUnheated} °C</span>
           </div>
 
-          <div className="bg-slate-900 border border-slate-700/80 px-2.5 py-1 rounded-md flex items-center gap-1">
-            <ArrowUpRight className="w-3.5 h-3.5 text-amber-400" />
-            <span className="text-gray-400">Max Unheated:</span>
-            <span className="text-amber-300 font-bold">{maxUnheated} °C</span>
+          <div style={{ backgroundColor: '#0f172a', border: '1px solid #1e293b', padding: '4px 8px', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <ArrowUpRight style={{ width: '14px', height: '14px', color: '#f59e0b' }} />
+            <span style={{ color: '#94a3b8' }}>Max Unheated:</span>
+            <span style={{ color: '#f59e0b', fontWeight: '700' }}>{maxUnheated} °C</span>
           </div>
         </div>
       </div>
 
       {/* Recharts Line Chart */}
-      <div className="h-72 w-full pt-2">
+      <div style={{ height: '280px', width: '100%', paddingTop: '0.5rem' }}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />

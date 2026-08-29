@@ -1,66 +1,170 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-dark: #0b0f19;
-  --bg-card: #131a2a;
-  --bg-card-hover: #1b2438;
-  --bg-input: #1a2336;
-  
-  --border-color: #24314c;
-  --border-glow: #38bdf8;
-  
+  --bg-deep: #090d16;
+  --bg-card: #111827;
+  --bg-card-alt: #0f172a;
+  --border-card: #1f2d48;
   --accent-cyan: #38bdf8;
-  --accent-blue: #3b82f6;
   --accent-amber: #f59e0b;
   --accent-emerald: #10b981;
   --accent-rose: #f43f5e;
-  --accent-purple: #a855f7;
-  
-  --text-main: #f3f4f6;
-  --text-muted: #9ca3af;
-  --text-dim: #6b7280;
 }
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-body {
-  background-color: #0b0f19;
-  color: #f3f4f6;
+html, body {
+  background-color: #090d16;
+  color: #f8fafc;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
-  background-image: 
-    radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.05) 0%, transparent 45%),
-    radial-gradient(circle at 85% 85%, rgba(245, 158, 11, 0.04) 0%, transparent 45%);
+  line-height: 1.5;
 }
 
-/* Glassmorphic Container */
+/* Header Styling */
+.app-header {
+  background-color: #0b1120;
+  border-bottom: 1px solid #1e2d4a;
+  padding: 0.85rem 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Glass & Card Containers */
 .glass-panel {
-  background-color: rgba(19, 26, 42, 0.85);
-  backdrop-filter: blur(12px);
-  border: 1px solid #24314c;
+  background-color: #111827;
+  border: 1px solid #1f2d48;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  padding: 1.25rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
-.glass-panel:hover {
-  border-color: #2e3e61;
+/* Master 2-Column Dashboard Grid Layout */
+.dashboard-layout {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
 }
 
-/* Custom Range Slider */
+@media (min-width: 1024px) {
+  .dashboard-layout {
+    grid-template-columns: 380px 1fr;
+  }
+}
+
+.sidebar-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.main-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .kpi-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.visualizer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .visualizer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Material Selection Cards */
+.mat-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mat-card {
+  background-color: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: 1rem;
+  cursor: pointer;
+  color: #f8fafc;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.mat-card:hover {
+  border-color: #334155;
+  background-color: #172033;
+}
+
+.mat-card.selected {
+  background-color: rgba(14, 116, 144, 0.25);
+  border: 1.5px solid #38bdf8;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
+}
+
+/* Slider Controls Styling */
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.slider-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+}
+
 .slider-input {
   width: 100%;
   height: 6px;
   appearance: none;
-  background: #1e293b;
+  background: #1c273c;
   border-radius: 4px;
   outline: none;
 }
+
 .slider-input::-webkit-slider-thumb {
   appearance: none;
   width: 18px;
@@ -68,20 +172,22 @@ body {
   border-radius: 50%;
   background: #38bdf8;
   cursor: pointer;
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
   transition: transform 0.15s ease;
 }
+
 .slider-input::-webkit-slider-thumb:hover {
   transform: scale(1.2);
 }
 
+/* Custom Badges */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 2px 8px;
+  padding: 3px 10px;
   border-radius: 9999px;
-  font-size: 0.75rem;
+  font-size: 0.725rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -103,4 +209,75 @@ body {
   background: rgba(16, 185, 129, 0.15);
   color: #10b981;
   border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+/* Inputs & Select Box */
+select {
+  background-color: #0d1322;
+  color: #f8fafc;
+  border: 1px solid #253554;
+  padding: 8px 12px;
+  border-radius: 8px;
+  width: 100%;
+  font-size: 0.85rem;
+}
+
+select:focus {
+  border-color: #38bdf8;
+  outline: none;
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, #0ea5e9, #2563eb);
+  color: white;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.85rem 1.5rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #38bdf8, #1d4ed8);
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.45);
+}
+
+/* Comparison Table Styling */
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.comparison-table th {
+  background-color: #0f172a;
+  color: #94a3b8;
+  padding: 10px 14px;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #1e293b;
+  text-align: left;
+}
+
+.comparison-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #1e293b;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.comparison-table tr:hover {
+  background-color: rgba(30, 41, 59, 0.4);
 }

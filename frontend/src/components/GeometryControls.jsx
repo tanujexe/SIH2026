@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Sun, Users, Thermometer, Wind } from 'lucide-react';
+import { Box, Sun, Users, Thermometer } from 'lucide-react';
 
 export default function GeometryControls({ config, onChange }) {
   const handleChange = (key, value) => {
@@ -10,23 +10,25 @@ export default function GeometryControls({ config, onChange }) {
   const volume = config.length * config.width * config.height;
 
   return (
-    <div className="glass-panel p-5 space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Box className="w-5 h-5 text-sky-400" />
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-300">Geometry & Parameters</h3>
+    <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '0.5rem', borderBottom: '1px solid #1e293b' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Box style={{ width: '18px', height: '18px', color: '#38bdf8' }} />
+          <h3 style={{ fontSize: '0.8rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#cbd5e1' }}>
+            Shelter Geometry
+          </h3>
         </div>
-        <span className="text-xs font-mono text-sky-300 bg-sky-950/60 border border-sky-800/60 px-2 py-0.5 rounded">
+        <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#38bdf8', backgroundColor: '#0f172a', border: '1px solid #1e293b', padding: '2px 8px', borderRadius: '6px', fontWeight: '600' }}>
           {config.length}m × {config.width}m × {config.height}m ({volume.toFixed(1)} m³)
         </span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         {/* Length Slider */}
-        <div className="space-y-1">
-          <div className="flex justify-between text-xs">
-            <span className="text-gray-400 font-medium">Shelter Length (m)</span>
-            <span className="font-mono text-cyan-300 font-semibold">{config.length} m</span>
+        <div className="slider-container">
+          <div className="slider-label-row">
+            <span style={{ color: '#cbd5e1', fontWeight: '500' }}>Shelter Length (m)</span>
+            <span style={{ fontFamily: 'monospace', color: '#38bdf8', fontWeight: '700', backgroundColor: '#0f172a', padding: '2px 8px', borderRadius: '4px', border: '1px solid #1e293b' }}>{config.length} m</span>
           </div>
           <input
             type="range"
@@ -40,10 +42,10 @@ export default function GeometryControls({ config, onChange }) {
         </div>
 
         {/* Width Slider */}
-        <div className="space-y-1">
-          <div className="flex justify-between text-xs">
-            <span className="text-gray-400 font-medium">Shelter Width (m)</span>
-            <span className="font-mono text-cyan-300 font-semibold">{config.width} m</span>
+        <div className="slider-container">
+          <div className="slider-label-row">
+            <span style={{ color: '#cbd5e1', fontWeight: '500' }}>Shelter Width (m)</span>
+            <span style={{ fontFamily: 'monospace', color: '#38bdf8', fontWeight: '700', backgroundColor: '#0f172a', padding: '2px 8px', borderRadius: '4px', border: '1px solid #1e293b' }}>{config.width} m</span>
           </div>
           <input
             type="range"
@@ -57,10 +59,10 @@ export default function GeometryControls({ config, onChange }) {
         </div>
 
         {/* Height Slider */}
-        <div className="space-y-1">
-          <div className="flex justify-between text-xs">
-            <span className="text-gray-400 font-medium">Shelter Height (m)</span>
-            <span className="font-mono text-cyan-300 font-semibold">{config.height} m</span>
+        <div className="slider-container">
+          <div className="slider-label-row">
+            <span style={{ color: '#cbd5e1', fontWeight: '500' }}>Shelter Height (m)</span>
+            <span style={{ fontFamily: 'monospace', color: '#38bdf8', fontWeight: '700', backgroundColor: '#0f172a', padding: '2px 8px', borderRadius: '4px', border: '1px solid #1e293b' }}>{config.height} m</span>
           </div>
           <input
             type="range"
@@ -74,12 +76,12 @@ export default function GeometryControls({ config, onChange }) {
         </div>
 
         {/* Window Area Slider */}
-        <div className="space-y-1">
-          <div className="flex justify-between text-xs">
-            <span className="text-gray-400 font-medium flex items-center gap-1">
-              <Sun className="w-3 h-3 text-amber-400" /> South Glazing (m²)
+        <div className="slider-container">
+          <div className="slider-label-row">
+            <span style={{ color: '#cbd5e1', fontWeight: '500', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Sun style={{ width: '14px', height: '14px', color: '#f59e0b' }} /> South Glazing Area (m²)
             </span>
-            <span className="font-mono text-amber-300 font-semibold">{config.window_area} m²</span>
+            <span style={{ fontFamily: 'monospace', color: '#f59e0b', fontWeight: '700', backgroundColor: '#0f172a', padding: '2px 8px', borderRadius: '4px', border: '1px solid #1e293b' }}>{config.window_area} m²</span>
           </div>
           <input
             type="range"
@@ -93,12 +95,12 @@ export default function GeometryControls({ config, onChange }) {
         </div>
 
         {/* Target Indoor Temperature Setpoint */}
-        <div className="space-y-1">
-          <div className="flex justify-between text-xs">
-            <span className="text-gray-400 font-medium flex items-center gap-1">
-              <Thermometer className="w-3 h-3 text-rose-400" /> Comfort Setpoint (°C)
+        <div className="slider-container">
+          <div className="slider-label-row">
+            <span style={{ color: '#cbd5e1', fontWeight: '500', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Thermometer style={{ width: '14px', height: '14px', color: '#f43f5e' }} /> Comfort Setpoint (°C)
             </span>
-            <span className="font-mono text-rose-300 font-semibold">{config.target_temperature} °C</span>
+            <span style={{ fontFamily: 'monospace', color: '#f43f5e', fontWeight: '700', backgroundColor: '#0f172a', padding: '2px 8px', borderRadius: '4px', border: '1px solid #1e293b' }}>{config.target_temperature} °C</span>
           </div>
           <input
             type="range"
@@ -112,12 +114,12 @@ export default function GeometryControls({ config, onChange }) {
         </div>
 
         {/* Occupants Count */}
-        <div className="space-y-1">
-          <div className="flex justify-between text-xs">
-            <span className="text-gray-400 font-medium flex items-center gap-1">
-              <Users className="w-3 h-3 text-purple-400" /> Human Occupants
+        <div className="slider-container">
+          <div className="slider-label-row">
+            <span style={{ color: '#cbd5e1', fontWeight: '500', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Users style={{ width: '14px', height: '14px', color: '#c084fc' }} /> Human Occupants
             </span>
-            <span className="font-mono text-purple-300 font-semibold">{config.occupants} Persons</span>
+            <span style={{ fontFamily: 'monospace', color: '#c084fc', fontWeight: '700', backgroundColor: '#0f172a', padding: '2px 8px', borderRadius: '4px', border: '1px solid #1e293b' }}>{config.occupants} Persons</span>
           </div>
           <input
             type="range"
